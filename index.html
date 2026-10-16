@@ -6,87 +6,169 @@
 <style>
   :root {
     --desk: #2C2C2C; --paper: #F4F1EA; --ink: #1F1D1A; 
-    --red: #C0392B; --orange: #D35400; --blue: #4F6F8F;
+    --red: #C0392B; --orange: #D35400; --blue: #4F6F8F; --green: #4E7A55;
   }
   body { background: var(--desk); color: var(--paper); font-family: sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; }
-  .container { width: 100%; max-width: 600px; background: var(--paper); color: var(--ink); padding: 24px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-  h1 { font-size: 24px; color: var(--red); margin-top: 0; }
-  .status-box { background: #e8e2d4; padding: 10px; font-size: 13px; margin-bottom: 15px; border-left: 4px solid var(--red); }
-  .scenario { font-size: 16px; line-height: 1.5; margin-bottom: 20px; }
-  .choice-btn { display: block; width: 100%; background: #fff; border: 1px solid #ccc; padding: 12px; margin-bottom: 10px; text-align: left; cursor: pointer; border-radius: 4px; font-size: 14px; font-weight: bold; transition: 0.2s; }
-  .choice-btn:hover { background: #f0eae1; border-color: var(--ink); transform: translateX(2px); }
-  .tag { font-size: 11px; padding: 2px 6px; background: #ddd; border-radius: 3px; margin-right: 5px; }
+  .container { width: 100%; max-width: 680px; background: var(--paper); color: var(--ink); padding: 24px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.6); }
+  
+  /* 메인 타이틀 화면 스타일 */
+  .main-screen { text-align: center; padding: 10px 0; }
+  
+  /* 트윗 밈 박스 스타일 */
+  .tweet-box { background: #fff; border: 1px solid #dcd6c8; border-radius: 12px; padding: 20px; margin: 20px 0; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.08); position: relative; }
+  .tweet-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .tweet-avatar { width: 48px; height: 48px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center; font-weight: bold; overflow: hidden; border: 1px solid #ccc; }
+  .tweet-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .tweet-user-info { display: flex; flex-direction: column; }
+  .tweet-name-row { display: flex; align-items: center; gap: 4px; font-weight: bold; font-size: 15px; color: #0f1419; }
+  .verified-badge { color: #1d9bf0; font-size: 14px; }
+  .tweet-handle { color: #536471; font-size: 13px; }
+  .tweet-content { font-size: 18px; font-weight: 500; line-height: 1.5; color: #0f1419; margin-top: 6px; }
+
+  h1 { font-size: 28px; color: var(--red); margin: 10px 0 5px; font-weight: 900; }
+  .subtitle { font-size: 14px; color: #666; margin-bottom: 15px; font-weight: bold; }
+
+  /* 게임 플레이 화면 스타일 */
+  .dashboard { background: #e8e2d4; padding: 12px; border-radius: 4px; margin-bottom: 20px; border-left: 5px solid var(--red); font-size: 13px; }
+  .status-row { display: flex; justify-content: space-between; margin-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+  .gauge-container { display: flex; align-items: center; gap: 6px; width: 100%; margin-top: 4px; }
+  .gauge-bar { flex-grow: 1; height: 8px; background: #d3cbb7; border-radius: 4px; overflow: hidden; }
+  .gauge-fill { height: 100%; background: var(--red); width: 0%; transition: width 0.4s; }
+
+  .stage-title { font-size: 12px; color: #666; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
+  .scenario { font-size: 16px; line-height: 1.6; margin-bottom: 20px; font-weight: 500; }
+  
+  .choice-btn { display: block; width: 100%; background: #fff; border: 1px solid #cec5b2; padding: 14px; margin-bottom: 12px; text-align: left; cursor: pointer; border-radius: 4px; font-size: 14px; font-weight: bold; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+  .choice-btn:hover { background: #fbf9f4; border-color: var(--ink); transform: translateX(3px); }
+  
+  .start-btn { background: var(--red); color: #fff; border: none; padding: 15px 30px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 15px; box-shadow: 0 4px 10px rgba(192,57,43,0.3); }
+  .start-btn:hover { background: #a93226; }
 </style>
 </head>
 <body>
 
-<div class="container" id="game-app">
-  <h1>좌아하게: 대한민국에서 좌파로 살기</h1>
-  <div class="status-box" id="status-bar">
-    🏠 진보 가정 출신 | 💰 현금: 50만 원 | 🧠 멘탈: 80 | 🛡️ 자기합리화: 10
-  </div>
-  <div id="content">
-    <p class="scenario">진보 교육자이신 부모님 밑에서 자란 당신. 고등학교 축제를 앞두고 교내 청소·경비 노동자들의 처우 개선을 요구하는 학생 서명운동을 제안하라는 친구의 연락을 받는다.</p>
-    <button class="choice-btn" onclick="makeChoice('left')">✊ "당연히 동참하자! 노동권은 학생도 지켜야지!" <span class="tag" style="color:var(--red)">진보 단체 박수</span> <span class="tag" style="color:var(--orange)">엄마의 한숨</span></button>
-    <button class="choice-btn" onclick="makeChoice('right')">📚 "일단 이번 중간고사 내신부터 챙기고 생각하자..." <span class="tag" style="color:var(--blue)">현실 순응</span> <span class="tag">멘탈 유지</span></button>
-  </div>
+<div class="container" id="app">
+  <!-- 메인 화면 렌더링 -->
 </div>
 
 <script>
-let stats = { cash: 50, mental: 80, rationalization: 10, fame: 50 };
-let step = 1;
+let state = { age: 5, cash: 10, mental: 100, sigh: 10, step: 1 };
 
-function makeChoice(type) {
-  const content = document.getElementById('content');
-  const status = document.getElementById('status-bar');
-  
-  if (type === 'left') {
-    stats.fame += 20;
-    stats.cash -= 10;
-    stats.rationalization += 15;
-    content.innerHTML = `
-      <h3>📢 서명운동 성공! 그러나...</h3>
-      <p class="scenario">학교 커뮤니티와 진보 동아리에서 당신을 향해 "참된 청년의 목소리"라며 찬사가쏟아졌다. 하지만 학원 원장님은 "학교에서 정치질이나 한다"며 다음 달 수강료 할인을 취소했다. 통장 잔고가 가벼워진다.</p>
-      <button class="choice-btn" onclick="nextStep(2)">다음 챕터로 진행하기 ➡️</button>
-    `;
-  } else {
-    stats.mental += 10;
-    stats.fame -= 10;
-    content.innerHTML = `
-      <h3>🤫 조용한 학생의 길</h3>
-      <p class="scenario">서명운동에 동참하지 않고 도서관에서 조용히 공부를 마쳤다. 부모님은 섭섭한 눈치였지만, 학원비 청구서는 무사히 넘어갔고 주말에 친구들과 평화롭게 카페를 갔다. 왠지 마음 한구석이 씁쓸하다.</p>
-      <button class="choice-btn" onclick="nextStep(2)">다음 챕터로 진행하기 ➡️</button>
-    `;
-  }
-  status.innerHTML = `🏠 진보 가정 출신 | 💰 현금: ${stats.cash}만 원 | 🧠 멘탈: ${stats.mental} | 🛡️ 자기합리화: ${stats.rationalization}`;
-}
+const stages = {
+  1: { age: "5세", name: "유치원 시절", text: "유치원 간식 시간, 딸기우유가 3개 모자란다. 선생님이 '먼저 손든 사람에게 주겠다'고 한다.", c1: "🙋‍♂️ 손을 번쩍 들고 내가 먼저 먹겠다고 쟁취한다!", c2: "🤝 '못 먹은 친구들과 반씩 나눠 마셔요'라고 제안한다." },
+  2: { age: "17세", name: "고등학교 시절", text: "학교 동아리 영화 관람 시간. 사회비판적 독립 영화와 블록버스터 상업 영화 중 하나를 골라야 한다.", c1: "🎬 자본주의의 모순을 고발하는 다큐멘터리 영화를 골라 토론을 연다.", c2: "🍿 아무 생각 없이 웃을 수 있는 할리우드 히어로 액션 영화를 본다." },
+  3: { age: "24세", name: "대학생 및 아르바이트", text: "편의점 야간 알바 중, 최저임금보다 적은 시급을 준다는 사장님의 사연을 들었다. 어떻게 할까?", c1: "✊ 노동청에 고발하고 부당함을 알리는 대자보를 캠퍼스에 붙인다.", c2: "🤫 '당장 월급이 아쉬우니' 눈을 감고 조용히 일한다." },
+  4: { age: "32세", name: "직장인과 주택 마련의 기로", text: "열심히 모은 돈과 대출로 집을 사야 한다. 선택의 순간이다.", c1: "🏢 공공임대 주택과 주거 복지 확대를 지지하며 실거주 위주로 버신다.", c2: "📈 영끌(영혼까지 끌어모아) 재개발 아파트 청약과 부동산 투자에 올인한다." },
+  5: { age: "45세", name: "아파트 동대표 당선", text: "어렵게 마련한 아파트의 동대표가 되었다. 첫 주민 투표 안건이 올라왔다.", c1: "📢 단지 내 임대주택 차별 반대 및 경비원 노동환경 개선 조례안을 발의한다.", c2: "🛡️ 우리 아파트 집값 하락을 막기 위한 보안 강화와 외부인 출입 금지를 통과시킨다." },
+  6: { age: "60세+", name: "은퇴와 황혼기", text: "온라인 커뮤니티와 라디오 시사 방송에 댓글을 남기는 은퇴 생활. 인생을 돌아보며 마지막 선택을 한다.", c1: "🕊️ 끝까지 사회적 약자와 연대하는 시민단체 활동가로 남는다.", c2: "🏡 안정적인 자산 관리와 노후 재테크에 집중하며 평온하게 지낸다." }
+};
 
-function nextStep(s) {
-  const content = document.getElementById('content');
-  content.innerHTML = `
-    <h3>🎓 대학교 입학과 아르바이트</h3>
-    <p class="scenario">대학생이 된 당신. 최저임금 인상 캠페인과 대학가 원룸 임대료 폭등 문제가 겹쳤다. 동네 카페 사장님은 "최저임금을 올리면 알바를 잘라야 한다"며 울상을 짓고, 동기들은 "노동자의 권리"를 외치며 시위를 준비한다.</p>
-    <button class="choice-btn" onclick="endGame('left')">✊ "알바생 입장에서 최저임금 인상 집회에 적극 연대한다!"</button>
-    <button class="choice-btn" onclick="endGame('right')">☕ "사장님 입장도 이해가 가니... 중재안이나 현실적 타협을 고민한다."</button>
+function renderMainScreen() {
+  document.getElementById('app').innerHTML = `
+    <div class="main-screen">
+      <h1>좌아하게</h1>
+      <div class="subtitle">대한민국에서 좌파로 살기 — 명분은 무한, 예산은 유한</div>
+      
+      <!-- 보내주신 트윗 밈 형태를 완벽히 구현한 메인 비주얼 박스 -->
+      <div class="tweet-box">
+        <div class="tweet-header">
+          <div class="tweet-avatar">
+            <!-- 프로필 이미지를 연결하거나 이모지로 대체 가능 -->
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='%23ccc'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z'/></svg>" alt="프로필">
+          </div>
+          <div class="tweet-user-info">
+            <div class="tweet-name-row">
+              <span>이재명</span>
+              <span class="verified-badge">✔</span>
+            </div>
+            <span class="tweet-handle">@Jaemyung_Lee</span>
+          </div>
+        </div>
+        <div class="tweet-content">
+          많이들 함께 해주세요<br>
+          <strong>좌아하게</strong> 말입니다.
+        </div>
+      </div>
+
+      <p style="font-size: 14px; color: #444; margin: 15px 0; font-style: italic;">
+        "모두를 위한 정책을 발표했다.<br>이제 모두가 서로 다른 이유로 화를 낸다."
+      </p>
+
+      <button class="start-btn" onclick="startGame()">게임 시작하기 👍</button>
+    </div>
   `;
 }
 
-function endGame(type) {
-  const content = document.getElementById('content');
-  if(type === 'left') {
+function startGame() {
+  state = { age: 5, cash: 10, mental: 100, sigh: 10, step: 1 };
+  renderGame();
+}
+
+function renderGame() {
+  let stage = stages[state.step];
+  if (!stage) return;
+
+  document.getElementById('app').innerHTML = `
+    <h1>좌아하게</h1>
+    <div class="dashboard" id="dashboard">
+      <div class="status-row">
+        <span id="stat-age">👶 나이: ${stage.age} (${stage.name})</span>
+        <span id="stat-cash">💰 자산: ${state.cash}만 원</span>
+        <span id="stat-mental">🧠 멘탈: ${state.mental}</span>
+      </div>
+      <div class="gauge-container">
+        <span>😤 엄마의 한숨 게이지:</span>
+        <div class="gauge-bar"><div class="gauge-fill" id="sigh-fill" style="width: ${state.sigh}%;"></div></div>
+        <span id="sigh-text">${state.sigh}% (${state.sigh > 70 ? '뒷목 잡으심' : state.sigh > 40 ? '깊은 한숨' : '평온'})</span>
+      </div>
+    </div>
+
+    <div class="stage-title">Stage ${state.step} / 6</div>
+    <div class="scenario">${stage.text}</div>
+    <button class="choice-btn" onclick="makeChoice(1)">${stage.c1}</button>
+    <button class="choice-btn" onclick="makeChoice(2)">${stage.c2}</button>
+  `;
+}
+
+function makeChoice(choiceNum) {
+  if (choiceNum === 1) {
+    state.sigh += (state.step === 1 ? 25 : 35);
+    state.mental -= 10;
+    state.cash -= 5;
+  } else {
+    state.sigh = Math.max(0, state.sigh - 10);
+    state.mental += 10;
+    state.cash += 15;
+  }
+  state.sigh = Math.max(0, Math.min(100, state.sigh));
+  state.mental = Math.max(0, Math.min(100, state.mental));
+
+  if (state.step >= 6) {
+    showEnding(choiceNum === 1 ? 'left' : 'right');
+  } else {
+    state.step++;
+    renderGame();
+  }
+}
+
+function showEnding(type) {
+  let content = document.getElementById('app');
+  if (type === 'left') {
     content.innerHTML = `
-      <h2>ending: 명분은 무한, 통장은 유한 🏛️</h2>
-      <p class="scenario">당신은 순수한 진보 활동가로 성장하여 거리의 박수를 한몸에 받고 있습니다. 세상을 바꾸겠다는 의지는 불타오르지만, 이번 달 월세와 관리비 고지서라는 현실 청구서가 당신의 이름을 기다리고 있습니다.<br><br><em>“정책은 성공했습니다. 지표와 통장 잔고만 동의하지 않았습니다.”</em></p>
-      <button class="choice-btn" onclick="location.reload()">🔄 다시 시작하기</button>
+      <h2>🏛️ 엔딩: 명분은 무한, 통장은 유한</h2>
+      <p class="scenario">평생을 대의와 연대, 사회적 약자의 편에 서서 싸워온 당신. 어머니는 늘 뒷목을 잡으셨지만, 세상에는 당신이 남긴 작은 균열들이 기록되었습니다.<br><br><em>“정책은 성공했습니다. 지표와 통장 잔고만 동의하지 않았습니다.”</em></p>
+      <button class="choice-btn" style="text-align:center; background:var(--red); color:#fff; margin-top:15px;" onclick="renderMainScreen()">🔄 타이틀로 돌아가기</button>
     `;
   } else {
     content.innerHTML = `
-      <h2>ending: 불편한 타협과 현실적 생존 🤝</h2>
-      <p class="scenario">이상과 현실 사이에서 아슬아슬한 줄타기를 배웠습니다. 박수는 조금 줄었지만 민원도 줄어들었습니다. 당적과 지갑 사이에서 균형을 잡는 법을 터득한 당신, 이것이 진정한 대한민국에서 살아남는 법일까요?</p>
-      <button class="choice-btn" onclick="location.reload()">🔄 다시 시작하기</button>
+      <h2>🏡 엔딩: 현실주의자의 안락한 노후</h2>
+      <p class="scenario">이상보다는 현실의 지표와 자산을 선택한 당신. 어머니는 평온하게 미소 지으셨고, 통장 잔고는 든든합니다. 세상의 변화보다는 내 집의 평화가 소중했던 한 평생이었습니다.<br><br><em>“박수는 줄었지만 민원도 없고, 자산은 늘었습니다.”</em></p>
+      <button class="choice-btn" style="text-align:center; background:var(--red); color:#fff; margin-top:15px;" onclick="renderMainScreen()">🔄 타이틀로 돌아가기</button>
     `;
   }
 }
+
+renderMainScreen();
 </script>
 
 </body>
