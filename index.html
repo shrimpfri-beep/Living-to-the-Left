@@ -1,50 +1,5 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>좌아하게: 대한민국에서 좌파로 살기 (확장 에디션)</title>
-<style>
-  :root {
-    --desk: #121212; --paper: #F4F1EA; --ink: #1F1D1A; 
-    --red: #C0392B; --orange: #D35400; --blue: #2980B9; --green: #27AE60;
-  }
-  body { background: var(--desk); color: var(--paper); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-  .container { width: 100%; max-width: 580px; background: var(--paper); color: var(--ink); padding: 24px; border-radius: 8px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); border-top: 6px solid var(--red); }
-  
-  .dashboard { background: #e8e2d4; padding: 12px; border-radius: 6px; margin-bottom: 16px; border: 1px solid #dcd6c8; font-size: 13px; font-weight: bold; }
-  .status-row { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
-  .sigh-box { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--red); }
-  .gauge-bar { flex-grow: 1; height: 8px; background: #d3cbb7; border-radius: 4px; overflow: hidden; }
-  .gauge-fill { height: 100%; background: var(--red); width: 10%; transition: width 0.4s; }
-
-  .avatar-room { background: #222; color: #fff; border-radius: 8px; padding: 12px; text-align: center; margin-bottom: 16px; border: 2px solid #333; }
-  .avatar-emoji { font-size: 40px; margin-bottom: 4px; }
-  .avatar-status { font-size: 13px; color: #aaa; }
-
-  .stage-badge { font-size: 11px; color: var(--red); font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
-  .scenario { font-size: 16px; line-height: 1.6; margin-bottom: 20px; font-weight: 500; min-height: 70px; }
-  
-  .choice-btn { display: block; width: 100%; background: #fff; border: 1px solid #cec5b2; padding: 14px; margin-bottom: 12px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 14px; font-weight: bold; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-  .choice-btn:hover { background: #fbf9f4; border-color: var(--ink); transform: translateX(3px); }
-  
-  .community-ticker { background: #111; color: #00ffcc; border: 1px solid #333; padding: 8px 12px; font-size: 12px; border-radius: 4px; margin-top: 15px; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-  .title-screen { text-align: center; padding: 10px 0; }
-  .tweet-box { background: #fff; border: 1px solid #dcd6c8; border-radius: 8px; padding: 15px; margin: 15px 0; text-align: left; }
-  .start-btn { background: var(--red); color: #fff; border: none; padding: 14px 28px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 10px; box-shadow: 0 4px 10px rgba(192,57,43,0.3); }
-  .start-btn:hover { background: #a93226; }
-  
-  .report-box { background: #fff; border: 1px dashed #999; padding: 15px; border-radius: 6px; font-size: 13px; margin: 15px 0; text-align: left; max-height: 200px; overflow-y: auto; }
-</style>
-</head>
-<body>
-
-<div class="container" id="app"></div>
-
-<script>
-let state = { cash: 30, mental: 100, sigh: 10, step: 1, history: [] };
-
-const stages = {
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>좌아하게 · 네온 인생극장</title><style>*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 15% 5%,#503371,transparent 50%),radial-gradient(ellipse at 95% 90%,#145668,transparent 45%),#111225;color:#f5f0ff;font-family:system-ui,sans-serif;line-height:1.65}main{max-width:820px;margin:22px auto;padding:clamp(17px,4vw,30px);background:#1b1c33ec;border:2px solid #74658a;border-radius:25px;box-shadow:0 25px 80px #0006}h1{font-size:clamp(44px,10vw,74px);line-height:1.1;letter-spacing:-4px;color:#ffdf75;text-shadow:3px 5px #93466b;margin:18px 0}h2{color:#ffe4a0;line-height:1.35}h3{color:#8ce9df}.poster{text-align:center;padding:15px}.cast{font-size:50px}.small,small{font-size:12px;color:#c4bad7}.row{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}button,input,select{font:inherit}button{border:2px solid #827094;border-radius:14px;background:#36304e;color:#fff;padding:12px 17px;cursor:pointer;box-shadow:0 4px #08091b;transition:transform .13s,background .13s}button:hover:not(:disabled){background:#51416b;border-color:#ffda75;transform:translateY(-2px)}button:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px #08091b}button:disabled{opacity:.45;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #80e9ef;outline-offset:3px}.primary{background:linear-gradient(110deg,#e94383,#a95fe7);border-color:#ffb6d3;font-weight:800}nav{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}nav button{font-size:12px;padding:6px 10px;box-shadow:none;border:1px solid #615675;background:#25263e}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{padding:9px 12px;background:linear-gradient(130deg,#3b3254,#293348);border:1px solid #615575;border-radius:13px;font-size:12px}.stat strong{display:block;color:#ffe69a;font-size:21px}.bar{height:5px;background:#101222;margin-top:6px;border-radius:6px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#ab6ef8,#ff7fb0)}.hero{display:flex;gap:17px;align-items:center;padding:18px;border:1px solid #907698;border-radius:21px;background:linear-gradient(110deg,#493258,#234452);margin:18px 0}.avatar{font-size:70px;line-height:1.3;filter:drop-shadow(0 7px #0003);animation:bob 3s ease-in-out infinite}.episode{font-size:11px;color:#ffd57e;letter-spacing:1px}.hero h2{margin:5px 0}.hero p{margin:8px 0}.choice{width:100%;display:flex;align-items:flex-start;text-align:left;gap:12px;margin:13px 0;padding:17px;background:linear-gradient(105deg,#372c51,#29344b);font-weight:650}.pick{min-width:29px;height:29px;display:inline-flex;align-items:center;justify-content:center;background:#ffd16d;color:#36233f;border-radius:9px;font-weight:900}.bubble{background:#25404b;border:2px solid #59a69f;color:#c7fff4;border-radius:20px 20px 20px 4px;padding:19px;font-size:17px;margin:20px 0}.box{padding:16px;border:1px solid #6b5b7c;background:#29283f;border-radius:17px;margin:14px 0}.quote{padding:17px;border-left:4px solid #ffba6b;background:#3b2c47;border-radius:6px 16px 16px 6px}.badge{display:inline-block;background:#4b3458;color:#ffcee8;border:1px solid #8b5a83;padding:3px 9px;font-size:12px;border-radius:20px}.notice{background:#3e3645;color:#eddfbc;border:1px solid #8e7957;border-radius:12px;padding:13px;font-size:12px}.record{padding:12px 0;border-bottom:1px dashed #675476}a{color:#91edee}input,select{background:#16172a;color:#fff;padding:7px;border:1px solid #7c6c91;border-radius:8px;max-width:100%}progress{width:100%;height:8px;accent-color:#ff6fa9}details{margin:15px 0}summary{cursor:pointer;color:#d7bafa}@keyframes bob{50%{transform:translateY(-6px)}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}@media(max-width:520px){main{margin:8px;padding:15px;border-radius:18px}.avatar{font-size:50px}.hero{padding:13px;gap:11px}.stat{padding:8px;font-size:11px}.stat strong{font-size:18px}.row button{flex:1}}@media print{nav,button{display:none}body,main{background:white;color:#111;border:0;box-shadow:none}h1,h2,h3,.small,small{color:#111;text-shadow:none}.box,.hero,.bubble,.stat,.quote{background:white;color:#111}.stat strong{color:#111}.avatar{animation:none}}
+</style></head><body><main id="app"></main><script>const stages = {
   1: {
     age: "10대 · 학창 시절", title: "축제와 대자보", avatar: "🧑‍🎓",
     text: "학교 축제 주점 이름을 정해야 한다. 친구들과 의견이 갈린다.",
@@ -83,121 +38,53 @@ const stages = {
   }
 };
 
-function renderMain() {
-  document.getElementById('app').innerHTML = `
-    <div class="title-screen">
-      <h1 style="color:var(--red); font-size:28px; margin-bottom:5px;">좌아하게</h1>
-      <div style="font-size:13px; color:#666; font-weight:bold; margin-bottom:15px;">대한민국에서 좌파로 살기 — 명분은 무한, 예산은 유한</div>
-      
-      <div class="tweet-box">
-        <div style="font-weight:bold; font-size:14px; margin-bottom:4px;">이재명 ✔ <span style="font-size:12px; color:#777; font-weight:normal;">@Jaemyung_Lee</span></div>
-        <div style="font-size:15px; line-height:1.4;">많이들 함께 해주세요<br><strong>좌아하게</strong> 말입니다.</div>
-      </div>
-
-      <p style="font-size:13px; color:#444; font-style:italic; margin:15px 0;">
-        "모두를 위한 정책을 발표했다.<br>이제 모두가 서로 다른 이유로 화를 낸다."
-      </p>
-
-      <button class="start-btn" onclick="startGame()">인생 게임 시작하기 👍</button>
-    </div>
-  `;
-}
-
-function startGame() {
-  state = { cash: 30, mental: 100, sigh: 10, step: 1, history: [] };
-  renderGame();
-}
-
-function renderGame() {
-  let stage = stages[state.step];
-  if (!stage) return;
-
-  document.getElementById('app').innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <h2 style="margin:0; font-size:18px; color:var(--red);">좌아하게: 생애 시뮬레이션</h2>
-      <button onclick="renderMain()" style="background:none; border:none; color:#666; cursor:pointer; font-size:12px;">🏠 타이틀로</button>
-    </div>
-
-    <div class="dashboard">
-      <div class="status-row">
-        <span>👶 연령: ${stage.age}</span>
-        <span>💰 자산: ${state.cash}만 원</span>
-        <span>🧠 멘탈: ${state.mental}</span>
-      </div>
-      <div class="sigh-box">
-        <span>😤 엄마의 한숨: ${state.sigh}%</span>
-        <div class="gauge-bar"><div class="gauge-fill" style="width: ${state.sigh}%;"></div></div>
-      </div>
-    </div>
-
-    <div class="avatar-room">
-      <div class="avatar-emoji">${stage.avatar}</div>
-      <div class="avatar-status">현재 국면: ${stage.title}</div>
-    </div>
-
-    <div class="stage-badge">Stage ${state.step} / 6</div>
-    <div class="scenario">${stage.text}</div>
-
-    <button class="choice-btn" onclick="makeChoice(1)">${stage.c1.text}</button>
-    <button class="choice-btn" onclick="makeChoice(2)">${stage.c2.text}</button>
-
-    <div class="community-ticker" id="ticker">💬 실시간 여론: 선택을 내려 반응을 확인하세요.</div>
-  `;
-}
-
-function makeChoice(num) {
-  let stage = stages[state.step];
-  let choice = num === 1 ? stage.c1 : stage.c2;
-
-  state.sigh = Math.max(0, Math.min(100, state.sigh + choice.sigh));
-  state.cash += choice.cash;
-  state.history.push({ title: stage.title, choice: choice.text, tag: choice.tag });
-
-  document.getElementById('ticker').innerText = `${choice.comment}`;
-
-  if (state.step >= 6) {
-    setTimeout(() => showEnding(choice.ending), 600);
-  } else {
-    state.step++;
-    setTimeout(renderGame, 600);
-  }
-}
-
-function showEnding(type) {
-  let historyHtml = state.history.map(h => `<li><b>[${h.tag}]</b> ${h.title}: ${h.choice}</li>`).join('');
-  let app = document.getElementById('app');
-
-  if (type === 'left') {
-    app.innerHTML = `
-      <h2>🏛️ 블랙코미디 풍자 리포트: 명분은 무한, 통장은 유한</h2>
-      <p class="scenario">평생을 대의와 연대, 사회적 약자의 편에 서서 싸워온 당신. 어머니는 매일 깊은 한숨을 쉬셨고 통장은 가벼워졌지만, 커뮤니티와 역사 속에는 당신의 뼈 있는 발언들이 찬란하게 박제되었습니다.</p>
-      
-      <div class="report-box">
-        <strong>📝 플레이어 일생 요약 기록:</strong>
-        <ul>${historyHtml}</ul>
-      </div>
-
-      <p style="font-size:12px; font-style:italic; color:#555;">“정책은 성공했습니다. 지표와 통장 잔고만 동의하지 않았습니다.”</p>
-      <button class="start-btn" onclick="renderMain()">🔄 다시 태어나기</button>
-    `;
-  } else {
-    app.innerHTML = `
-      <h2>🏡 블랙코미디 풍자 리포트: 현실주의자의 안락한 자산가</h2>
-      <p class="scenario">이상보다는 현실의 지표와 자산을 선택한 당신. 어머니는 비로소 평온하게 미소 지으셨고, 통장 잔고와 건물은 든든합니다. 세상의 변화보다 내 자산의 평화가 소중했던 한 평생이었습니다.</p>
-      
-      <div class="report-box">
-        <strong>📝 플레이어 일생 요약 기록:</strong>
-        <ul>${historyHtml}</ul>
-      </div>
-
-      <p style="font-size:12px; font-style:italic; color:#555;">“박수는 줄었지만 민원은 없고, 자산은 늘었습니다.”</p>
-      <button class="start-btn" style="background:var(--blue);" onclick="renderMain()">🔄 다시 태어나기</button>
-    `;
-  }
-}
-
-renderMain();
-</script>
-
-</body>
-</html>
+const KEY='jwa-neon-v3';let state=null;const app=document.getElementById('app');
+const labels={cash:'🪙 현금',mental:'🧠 멘탈',skill:'📚 정책 실무력',trust:'🤝 일관성',sigh:'😮‍💨 엄마의 한숨',rational:'🎭 자기합리화'};
+const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const events=Object.values(stages).map((s,i)=>({id:i,age:s.age,title:s.title,avatar:s.avatar,text:s.text,choices:[s.c1,s.c2].map((c,j)=>({text:c.text,effect:{cash:c.cash,sigh:c.sigh,mental:j===0?-5:2,skill:j===0?4:1,trust:j===0?2:0},line:c.comment||'가상 반응: 마지막 선택이 지나갔다. 이제 당신이 남긴 기록을 읽을 시간이다.'}))}));
+events[0].age='20세 · 대학 축제';
+events[0].choices.push({text:'🍢 원가표를 공개하고 수익 일부를 후원한다',effect:{cash:4,skill:6,trust:5},line:'동료: 메뉴판보다 회계표가 길지만 적자는 안 났네요.'});
+events[1].choices[1]={text:'🛵 일자리를 옮기고 근무기록을 정리해 대응한다',effect:{cash:4,skill:5,mental:-3},line:'동료: 현실과 타협했네. 주인공: 월세와 협상했습니다.'};
+events[2].choices.push({text:'🤝 조합원·협력사 노동자의 공동 협상안을 만든다',effect:{skill:8,trust:7,mental:-7,cash:-3},line:'구호는 세 글자 줄고 회의는 세 시간 늘었다.'});
+events[3].choices[1].effect={cash:-8,skill:1,sigh:-4,mental:-4};events[3].choices[1].line='가상 시장 알림: 계약서는 작성했지만 수익은 아직 오지 않았다.';
+events[3].choices.push({text:'🧮 대출 상환 능력부터 따져 보고 매수를 보류한다',effect:{cash:3,skill:6,mental:2},line:'단톡방: 대의보다 금리부터 읽으셨군요.'});
+events[4].choices[0].text='📢 경비원 근무환경 개선안을 입주자대표회의에 제안한다';
+events[4].choices.push({text:'🏘️ 우리 동네도 예외 없이 주거 원칙을 적용한다',effect:{trust:8,mental:-5,sigh:5},line:'주민: 원칙이 우리 동네에도 오나요? 주인공: 저도 오늘 알았습니다.'});
+events[5].choices[1].effect={cash:5,sigh:-8,mental:4};
+function event(age,title,avatar,text,choices){return {age,title,avatar,text,choices}}
+function c(text,effect,line){return {text,effect,line}}
+const added=[
+event('25세 · 단체 실무','우리 단체의 노동권','🦉','과로 반대 기자회견을 준비한다. 사무국장이 이번 주말 철야를 부탁한다.',[
+c('🛋️ 행사를 줄이고 휴무를 지킨다',{trust:7,mental:6,skill:3},'사무국장: 원칙을 우리에게도 적용할 줄은 몰랐네요.'),c('🚩 이번만 대의를 위해 철야한다',{mental:-13,rational:8,sigh:8},'선배: 우리는 돈 때문에 일하지 않잖아. 후배: 그래서 임금도 없나요?'),c('🧑‍💼 유급 인력을 고용한다',{cash:-7,trust:6,skill:5},'회계담당: 노동권이 예산서에 처음 등장했습니다.')]),
+event('29세 · 지원사업','청년은 늘고 예산은 그대로','🎁','지원금을 발표하려는데 대상과 재원이 아직 정해지지 않았다.',[
+c('📣 일단 모두에게 지급한다고 발표한다',{rational:9,trust:-5,mental:-3},'대변인: 재원은 관계 부처와 긴밀히 상상 중입니다.'),c('🔎 기준과 재원을 공개하고 조정한다',{skill:8,trust:7,mental:-5},'민원: 왜 비용을 굳이 알려서 기분 나쁘게 하나요?'),c('🎀 혜택은 그대로 두고 이름을 크게 바꾼다',{rational:10,trust:-5,cash:2},'행정 혁신: 지원은 그대로, 현수막은 두 배.')]),
+event('35세 · 공천 면접','계산서 없는 공약','🗳️','당은 큰 공약을 원하고 실무진은 작은 계산서를 가져왔다.',[
+c('🎤 비용 검토는 당선 후로 미룬다',{rational:8,trust:-4,mental:2},'면접관: 실행 가능성은 당선 이후의 문제입니다.'),c('📒 작지만 실행 가능한 공약을 제안한다',{skill:8,trust:6,mental:-4},'면접관: 내용은 좋은데 기사 제목이 안 나옵니다.'),c('🧑‍💻 공천보다 정책 실무를 택한다',{skill:6,mental:5,cash:-3},'선배: 권력을 내려놨군요. 주인공: 아직 받아본 적이 없습니다.')]),
+event('42세 · 정책회의','공장은 남고 싶어 할까','🏭','기업의 투자 요청과 신규 부담금 제안이 같은 회의에 올라왔다.',[
+c('📢 기업 의견보다 부담금 발표를 먼저 한다',{rational:7,trust:-4},'브리핑: 투자를 환영합니다. 환영 비용은 투자자가 부담합니다.'),c('🤝 지원 조건과 이행 확인을 묶는다',{skill:8,trust:6,mental:-5},'기업: 지원을 요청합니다. 담당자: 약속도 서면으로 부탁합니다.'),c('🧹 규칙도 특혜도 함께 줄인다',{skill:6,trust:4,sigh:2},'회의실 양쪽에서 동시에 실망의 한숨이 나왔다.')]),
+event('45세 · 예산 협의','증세 없는 지출 확대','🧾','각 부서의 요구를 더하니 재원을 넘었다. 홍보팀이 제목 수정을 제안한다.',[
+c('🎉 발표부터 하고 청구서는 나중에 본다',{rational:10,trust:-5},'차세대 지원: 다음 세대가 지원하는 정책입니다.'),c('🧮 증세와 감축안을 같이 설명한다',{skill:8,trust:7,mental:-7},'정책의 비용을 알려주자 회의실의 온도가 내려갔다.'),c('🪜 단계적으로 시행하고 평가한다',{skill:6,trust:5,mental:-3},'강경파: 단계적이라니 의지가 나약합니다.')]),
+event('51세 · 도심 집회','반대편에도 같은 원칙','📣','반대 집회가 열리고 동료들은 강경 대응을 요구한다.',[
+c('🕊️ 집회권을 인정하고 다른 장소에서 반론한다',{trust:8,mental:-4},'동료: 저들의 권리도 챙기나요? 주인공: 우리 논리의 유효기간을 늘립니다.'),c('🚌 안전과 통행 문제를 협의한다',{skill:5,trust:6},'주민: 입장은 모르겠고 버스는 타야 합니다.'),c('📺 상대의 존재 자체를 비난하는 방송을 한다',{rational:8,trust:-7,mental:-5},'가상 방송: 토론은 환영합니다. 반대 의견은 제외합니다.')]),
+event('54세 · 국제회의','국내용 구호의 환율','🌍','가상 강대국 대표는 구호 대신 거래 조건을 요구한다.',[
+c('📡 국내 지지자를 향해 강경 발언한다',{rational:6,trust:-3},'가상 외교관: 국내 사정은 이해합니다. 계약서에는 반영하지 않겠습니다.'),c('📑 원칙과 거래 조건을 나눠 협상한다',{skill:8,trust:6,mental:-6},'박수는 없었지만 수정된 문서가 남았다.'),c('🕊️ 모호한 평화 선언으로 답을 미룬다',{rational:9,trust:-5},'통역관: 좋은 문장인데 무엇에 동의한 건지 모르겠습니다.')]),
+event('57세 · 결과 발표','지표가 우리 편이 아니다','📺','정책 결과가 예상과 달랐다. 홍보팀이 비교기간 변경을 제안한다.',[
+c('✂️ 유리한 구간만 잘라 발표한다',{rational:12,trust:-9},'성과보고: 그래프의 시작점을 옮기자 정책이 개선됐습니다.'),c('🔦 실패와 외부 요인을 구분해 공개한다',{skill:7,trust:9,mental:-5},'기자: 실패를 인정하나요? 주인공: 자막도 그렇게 부탁합니다.'),c('🔎 독립 평가를 의뢰한다',{cash:-5,skill:8,trust:7},'평가위원: 결론을 미리 주시진 않는 거죠?')])];
+const ordered=[events[0],events[1],added[0],added[1],events[2],added[2],events[3],added[3],added[4],events[4],added[5],added[6],added[7],events[5]];events.splice(0,events.length,...ordered);
+function clamp(v){return Math.max(0,Math.min(100,v))}function apply(e){for(const [k,v]of Object.entries(e)){state[k]+=v;if(k!=='cash')state[k]=clamp(state[k])}if(state.cash<0){state.debt-=state.cash;state.cash=0}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}function stored(){try{return JSON.parse(localStorage.getItem(KEY))}catch{return null}}
+function nav(){return `<nav><button onclick="home()">🏠 타이틀</button>${state?'<button onclick="play()">🎮 인생으로</button>':''}<button onclick="info()">📚 게임·자료 안내</button></nav>`}
+function home(){app.innerHTML=`<div class="poster"><div class="cast">🧑‍🎓 📣 🧑‍💼</div><h1>좌아하게</h1><p>대한민국에서 좌파로 살기<br><span class="badge">명분은 무한, 예산은 유한</span></p></div>${nav()}<div class="quote">“세상을 바꾸겠다고 했는데,<br>왜 내 앞으로 청구서가 오는 걸까?”</div><p>어묵탕을 팔던 대학생부터 회의에 지친 어른까지.<br>명분과 생활 사이에서 당신만의 인생을 키워보세요.</p><div class="row"><label>🎒 출신 배경 <select id="background"><option value="field">현장 실무자</option><option value="study">정책 연구자</option><option value="donor">전문직 후원자</option></select></label></div><div class="row"><button class="primary" onclick="start()">🎲 새 인생 시작</button>${stored()?'<button onclick="resume()">💾 이어서 살기</button>':''}</div><div class="notice">인물·대사·커뮤니티 반응은 창작입니다. 선택의 능력치 효과는 미리 알려드리지 않습니다. 이 버전의 수치는 실제 정책·자산 예측이 아닙니다.</div>`}
+function start(){const b=document.getElementById('background').value;state={version:3,bg:b,step:0,cash:35,debt:0,mental:80,skill:20,trust:45,sigh:10,rational:10,history:[],trained:false,result:null,finished:false};if(b==='study')apply({skill:12});if(b==='donor')apply({cash:20,rational:8});if(b==='field')apply({trust:10});save();play()}
+function resume(){const s=stored();if(s?.version!==3)return;state=s;play()}
+function stats(){return `<div class="stats">${Object.entries(labels).map(([k,label])=>`<div class="stat">${label}<strong>${Math.round(state[k])}${k==='cash'?'만':''}</strong>${k!=='cash'?`<div class="bar"><div class="fill" style="width:${state[k]}%"></div></div>`:''}</div>`).join('')}</div><div class="small">게임 내 가상 상태 · 개인 부채 ${state.debt}만</div>`}
+function play(){if(!state)return home();if(state.finished)return ending();if(state.result)return result();const e=events[state.step];app.innerHTML=`${nav()}<div class="episode">LIFE ${String(state.step+1).padStart(2,'0')} / ${events.length} · ${e.age}</div><progress value="${state.step}" max="${events.length}"></progress>${stats()}<h3>🎒 이번에는 어떻게 보낼까?</h3><div class="row">${[['study','📚 자료 읽기'],['work','🛵 유급 일감'],['rest','🛋️ 잠깐 쉬기']].map(([k,t])=>`<button onclick="train('${k}')" ${state.trained?'disabled':''}>${t}</button>`).join('')}</div><small>장면마다 한 번. 공부도, 밥벌이도, 휴식도 인생에 남습니다.</small><div class="hero"><div class="avatar">${e.avatar}</div><div><span class="episode">오늘의 인생극장</span><h2>${e.title}</h2><p>${e.text}</p></div></div>${e.choices.map((c,i)=>`<button class="choice" onclick="choose(${i})"><span class="pick">${'ABC'[i]}</span><span>${c.text}</span></button>`).join('')}<p class="small">선택지에 정답표는 없습니다. 인물의 말과 다음 장면을 읽어보세요.</p>`}
+function train(k){if(state.trained||state.result||state.finished)return;const t={study:{skill:6,cash:-2},work:{cash:5,mental:-4},rest:{mental:8,sigh:-2}};if(!t[k])return;if(k==='study'&&state.cash<2)return alert('자료를 준비할 여유가 부족합니다. 다른 하루를 보내보세요.');apply(t[k]);state.trained=true;save();play()}
+function choose(i){if(!state||state.result||state.finished)return;const e=events[state.step],c=e.choices[i];if(!c)return;apply(c.effect);apply({cash:-3});let note=state.debt>0?'생활비 고지서 옆에 빚 청구서가 놓였다. 대의는 다음 달로 미룰 수 있어도 자동이체는 기다리지 않았다.':'이야기가 넘어가는 사이 생활비가 빠져나갔다. 세상은 그대로인데 자동이체는 성실했다.';if(state.rational>55){apply({trust:-2});note+=' 질문이 들어오자 답보다 해명이 먼저 나왔다.'}if(state.mental<25){apply({skill:-2});note+=' 같은 문장을 세 번 읽었다. 오늘은 커피도 당신을 설득하지 못했다.'}state.history.push({title:e.title,text:c.text,line:c.line});state.result={line:c.line,note};save();result()}
+function result(){const e=events[state.step];app.innerHTML=`${nav()}<div class="hero"><div class="avatar">${e.avatar}</div><div><span class="episode">🎬 당신의 선택, 그 다음</span><h2>${e.title}</h2><p>누구는 박수를 치고,<br>누구는 계산서를 펼칩니다.</p></div></div><div class="bubble">💬 ${escapeHtml(state.result.line)}</div><div class="box"><h3>📮 그 뒤에 도착한 소식</h3><p>${state.result.note}</p></div><button class="primary" onclick="next()">${state.step===events.length-1?'🧾 인생 결산 보기':'🎲 다음 인생 장면'}</button>`}
+function next(){if(!state.result)return;state.result=null;state.step++;state.trained=false;if(state.step===events.length)state.finished=true;save();play()}
+function verdict(){if(state.rational>=55)return ['🎭 원칙은 그대로, 예외는 나에게','원칙은 한 번도 바뀌지 않았다. 적용 대상만 매번 바뀌었다.'];if(state.mental<25||state.debt>40)return ['🦉 번아웃된 연대의 회계담당','세상을 구하려던 일정표에 자신의 휴식은 없었다.'];if(state.skill>=65&&state.trust>=65)return ['🧑‍💻 불편한 타협의 실무자','구호는 짧아졌고 고쳐진 문제는 남았다. 내부에선 변절인지 성장인지 토론 중이다.'];if(state.cash>=80)return ['🏡 생활의 안정을 찾은 후원자','후원은 이어졌지만 먼저 확인하는 것은 자동이체 잔액이 되었다.'];return ['📣 명분과 생활 사이의 생존자','선언과 청구서 사이에서 조금씩 다른 어른이 되었다.']}
+function ending(){const [t,d]=verdict();app.innerHTML=`<div class="poster"><div class="cast">🎭 🧾 🏁</div><h1>인생의 청구서</h1></div>${nav()}<h2>${t}</h2><p>${d}</p>${stats()}<div class="quote">“정책의 방향은 옳았습니다.<br>다만 제 생활이 그 방향으로 움직이지 않았습니다.”<br><small>창작 대사</small></div><h3>📜 당신이 남긴 발자국</h3>${state.history.map((h,i)=>`<div class="record"><span class="badge">EP ${i+1}</span> ${h.title}<p>${h.text}</p><small>💬 ${escapeHtml(h.line)}</small></div>`).join('')}<div class="row"><button onclick="window.print()">🖨️ 결산 인쇄</button><button onclick="home()">🎲 다시 태어나기</button></div><div class="notice">가상 인생의 결산입니다. 실제 국가 통계나 특정 정책의 인과효과를 뜻하지 않습니다.</div>`}
+function info(){app.innerHTML=`<h2>📚 게임과 자료 안내</h2>${nav()}<div class="box"><h3>🎮 어떻게 플레이하나요?</h3><p>하루의 육성 행동을 고르고 사건에 답합니다. 선택 후에는 대사와 상황만 보여줍니다. 현재 상태는 다음 사건과 최종 결산에서 확인할 수 있습니다. 마지막 선택만이 아니라 인생 전체가 결말에 반영됩니다.</p></div><div class="box"><h3>🔎 현실 자료 출발점</h3><p><a href="https://ecos.bok.or.kr/" target="_blank" rel="noopener">한국은행 ECOS</a> · 성장·금리·환율</p><p><a href="https://www.openfiscaldata.go.kr/op/ko/index" target="_blank" rel="noopener">열린재정</a> · 예산·결산·채무</p><p><a href="https://data.krx.co.kr/" target="_blank" rel="noopener">한국거래소</a> · 증시</p><p><a href="https://kosis.kr/" target="_blank" rel="noopener">KOSIS</a> · 고용·물가·인구·가계</p><p><a href="https://www.bigkinds.or.kr/" target="_blank" rel="noopener">빅카인즈</a> · 뉴스 비교</p></div><div class="notice">이 버전은 첨부된 원본을 바탕으로 재구성했습니다. 실시간 데이터·통계 입력 도구·글로벌 랜덤 충격은 구현되어 있지 않습니다. 이모지는 기기마다 모양이 다를 수 있습니다. 저장은 이 브라우저에서만 유지됩니다. 새 인생은 기존 진행을 덮어씁니다.</div>`}
+home();
+</script></body></html>
