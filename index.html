@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>좌아하게: 대한민국에서 좌파로 살기</title>
+<style>
+  :root {
+    --desk: #2C2C2C; --paper: #F4F1EA; --ink: #1F1D1A; 
+    --red: #C0392B; --orange: #D35400; --blue: #4F6F8F;
+  }
+  body { background: var(--desk); color: var(--paper); font-family: sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; }
+  .container { width: 100%; max-width: 600px; background: var(--paper); color: var(--ink); padding: 24px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+  h1 { font-size: 24px; color: var(--red); margin-top: 0; }
+  .status-box { background: #e8e2d4; padding: 10px; font-size: 13px; margin-bottom: 15px; border-left: 4px solid var(--red); }
+  .scenario { font-size: 16px; line-height: 1.5; margin-bottom: 20px; }
+  .choice-btn { display: block; width: 100%; background: #fff; border: 1px solid #ccc; padding: 12px; margin-bottom: 10px; text-align: left; cursor: pointer; border-radius: 4px; font-size: 14px; font-weight: bold; transition: 0.2s; }
+  .choice-btn:hover { background: #f0eae1; border-color: var(--ink); transform: translateX(2px); }
+  .tag { font-size: 11px; padding: 2px 6px; background: #ddd; border-radius: 3px; margin-right: 5px; }
+</style>
+</head>
+<body>
+
+<div class="container" id="game-app">
+  <h1>좌아하게: 대한민국에서 좌파로 살기</h1>
+  <div class="status-box" id="status-bar">
+    🏠 진보 가정 출신 | 💰 현금: 50만 원 | 🧠 멘탈: 80 | 🛡️ 자기합리화: 10
+  </div>
+  <div id="content">
+    <p class="scenario">진보 교육자이신 부모님 밑에서 자란 당신. 고등학교 축제를 앞두고 교내 청소·경비 노동자들의 처우 개선을 요구하는 학생 서명운동을 제안하라는 친구의 연락을 받는다.</p>
+    <button class="choice-btn" onclick="makeChoice('left')">✊ "당연히 동참하자! 노동권은 학생도 지켜야지!" <span class="tag" style="color:var(--red)">진보 단체 박수</span> <span class="tag" style="color:var(--orange)">엄마의 한숨</span></button>
+    <button class="choice-btn" onclick="makeChoice('right')">📚 "일단 이번 중간고사 내신부터 챙기고 생각하자..." <span class="tag" style="color:var(--blue)">현실 순응</span> <span class="tag">멘탈 유지</span></button>
+  </div>
+</div>
+
+<script>
+let stats = { cash: 50, mental: 80, rationalization: 10, fame: 50 };
+let step = 1;
+
+function makeChoice(type) {
+  const content = document.getElementById('content');
+  const status = document.getElementById('status-bar');
+  
+  if (type === 'left') {
+    stats.fame += 20;
+    stats.cash -= 10;
+    stats.rationalization += 15;
+    content.innerHTML = `
+      <h3>📢 서명운동 성공! 그러나...</h3>
+      <p class="scenario">학교 커뮤니티와 진보 동아리에서 당신을 향해 "참된 청년의 목소리"라며 찬사가쏟아졌다. 하지만 학원 원장님은 "학교에서 정치질이나 한다"며 다음 달 수강료 할인을 취소했다. 통장 잔고가 가벼워진다.</p>
+      <button class="choice-btn" onclick="nextStep(2)">다음 챕터로 진행하기 ➡️</button>
+    `;
+  } else {
+    stats.mental += 10;
+    stats.fame -= 10;
+    content.innerHTML = `
+      <h3>🤫 조용한 학생의 길</h3>
+      <p class="scenario">서명운동에 동참하지 않고 도서관에서 조용히 공부를 마쳤다. 부모님은 섭섭한 눈치였지만, 학원비 청구서는 무사히 넘어갔고 주말에 친구들과 평화롭게 카페를 갔다. 왠지 마음 한구석이 씁쓸하다.</p>
+      <button class="choice-btn" onclick="nextStep(2)">다음 챕터로 진행하기 ➡️</button>
+    `;
+  }
+  status.innerHTML = `🏠 진보 가정 출신 | 💰 현금: ${stats.cash}만 원 | 🧠 멘탈: ${stats.mental} | 🛡️ 자기합리화: ${stats.rationalization}`;
+}
+
+function nextStep(s) {
+  const content = document.getElementById('content');
+  content.innerHTML = `
+    <h3>🎓 대학교 입학과 아르바이트</h3>
+    <p class="scenario">대학생이 된 당신. 최저임금 인상 캠페인과 대학가 원룸 임대료 폭등 문제가 겹쳤다. 동네 카페 사장님은 "최저임금을 올리면 알바를 잘라야 한다"며 울상을 짓고, 동기들은 "노동자의 권리"를 외치며 시위를 준비한다.</p>
+    <button class="choice-btn" onclick="endGame('left')">✊ "알바생 입장에서 최저임금 인상 집회에 적극 연대한다!"</button>
+    <button class="choice-btn" onclick="endGame('right')">☕ "사장님 입장도 이해가 가니... 중재안이나 현실적 타협을 고민한다."</button>
+  `;
+}
+
+function endGame(type) {
+  const content = document.getElementById('content');
+  if(type === 'left') {
+    content.innerHTML = `
+      <h2>ending: 명분은 무한, 통장은 유한 🏛️</h2>
+      <p class="scenario">당신은 순수한 진보 활동가로 성장하여 거리의 박수를 한몸에 받고 있습니다. 세상을 바꾸겠다는 의지는 불타오르지만, 이번 달 월세와 관리비 고지서라는 현실 청구서가 당신의 이름을 기다리고 있습니다.<br><br><em>“정책은 성공했습니다. 지표와 통장 잔고만 동의하지 않았습니다.”</em></p>
+      <button class="choice-btn" onclick="location.reload()">🔄 다시 시작하기</button>
+    `;
+  } else {
+    content.innerHTML = `
+      <h2>ending: 불편한 타협과 현실적 생존 🤝</h2>
+      <p class="scenario">이상과 현실 사이에서 아슬아슬한 줄타기를 배웠습니다. 박수는 조금 줄었지만 민원도 줄어들었습니다. 당적과 지갑 사이에서 균형을 잡는 법을 터득한 당신, 이것이 진정한 대한민국에서 살아남는 법일까요?</p>
+      <button class="choice-btn" onclick="location.reload()">🔄 다시 시작하기</button>
+    `;
+  }
+}
+</script>
+
+</body>
+</html>
