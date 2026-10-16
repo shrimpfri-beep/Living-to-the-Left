@@ -5,96 +5,119 @@
 <title>좌아하게: 대한민국에서 좌파로 살기</title>
 <style>
   :root {
-    --desk: #2C2C2C; --paper: #F4F1EA; --ink: #1F1D1A; 
-    --red: #C0392B; --orange: #D35400; --blue: #4F6F8F; --green: #4E7A55;
+    --desk: #1a1a1a; --paper: #F4F1EA; --ink: #1F1D1A; 
+    --red: #C0392B; --orange: #D35400; --green: #2ECC71; --blue: #4F6F8F;
   }
-  body { background: var(--desk); color: var(--paper); font-family: sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; }
-  .container { width: 100%; max-width: 680px; background: var(--paper); color: var(--ink); padding: 24px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.6); }
+  body { background: var(--desk); color: var(--paper); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+  .container { width: 100%; max-width: 540px; background: var(--paper); color: var(--ink); padding: 24px; border-radius: 8px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); border-top: 6px solid var(--red); position: relative; }
   
-  /* 메인 타이틀 화면 스타일 */
-  .main-screen { text-align: center; padding: 10px 0; }
-  
-  /* 트윗 밈 박스 스타일 */
-  .tweet-box { background: #fff; border: 1px solid #dcd6c8; border-radius: 12px; padding: 20px; margin: 20px 0; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.08); position: relative; }
-  .tweet-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-  .tweet-avatar { width: 48px; height: 48px; border-radius: 50%; background: #ddd; display: flex; align-items: center; justify-content: center; font-weight: bold; overflow: hidden; border: 1px solid #ccc; }
-  .tweet-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .tweet-user-info { display: flex; flex-direction: column; }
-  .tweet-name-row { display: flex; align-items: center; gap: 4px; font-weight: bold; font-size: 15px; color: #0f1419; }
-  .verified-badge { color: #1d9bf0; font-size: 14px; }
-  .tweet-handle { color: #536471; font-size: 13px; }
-  .tweet-content { font-size: 18px; font-weight: 500; line-height: 1.5; color: #0f1419; margin-top: 6px; }
-
-  h1 { font-size: 28px; color: var(--red); margin: 10px 0 5px; font-weight: 900; }
-  .subtitle { font-size: 14px; color: #666; margin-bottom: 15px; font-weight: bold; }
-
-  /* 게임 플레이 화면 스타일 */
-  .dashboard { background: #e8e2d4; padding: 12px; border-radius: 4px; margin-bottom: 20px; border-left: 5px solid var(--red); font-size: 13px; }
-  .status-row { display: flex; justify-content: space-between; margin-bottom: 6px; flex-wrap: wrap; gap: 8px; }
-  .gauge-container { display: flex; align-items: center; gap: 6px; width: 100%; margin-top: 4px; }
+  /* 상단 대시보드 (상태바) */
+  .dashboard { background: #e8e2d4; padding: 12px; border-radius: 6px; margin-bottom: 16px; border: 1px solid #dcd6c8; font-size: 13px; font-weight: bold; }
+  .status-row { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
+  .sigh-box { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--red); }
   .gauge-bar { flex-grow: 1; height: 8px; background: #d3cbb7; border-radius: 4px; overflow: hidden; }
-  .gauge-fill { height: 100%; background: var(--red); width: 0%; transition: width 0.4s; }
+  .gauge-fill { height: 100%; background: var(--red); width: 10%; transition: width 0.4s; }
 
-  .stage-title { font-size: 12px; color: #666; font-weight: bold; text-transform: uppercase; margin-bottom: 4px; }
-  .scenario { font-size: 16px; line-height: 1.6; margin-bottom: 20px; font-weight: 500; }
+  /* 캐릭터 아바타 육성 뷰어 */
+  .avatar-room { background: #222; color: #fff; border-radius: 8px; padding: 15px; text-align: center; margin-bottom: 20px; border: 2px solid #333; position: relative; overflow: hidden; }
+  .avatar-emoji { font-size: 48px; margin-bottom: 5px; animation: float 2s ease-in-out infinite; }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  .avatar-status { font-size: 13px; color: #aaa; margin-top: 4px; }
+  .room-items { font-size: 12px; color: var(--orange); margin-top: 6px; font-weight: bold; }
+
+  /* 시나리오 및 선택지 */
+  .stage-badge { font-size: 11px; color: var(--red); font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .scenario { font-size: 16px; line-height: 1.6; margin-bottom: 20px; font-weight: 500; min-height: 60px; }
   
-  .choice-btn { display: block; width: 100%; background: #fff; border: 1px solid #cec5b2; padding: 14px; margin-bottom: 12px; text-align: left; cursor: pointer; border-radius: 4px; font-size: 14px; font-weight: bold; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+  .choice-btn { display: block; width: 100%; background: #fff; border: 1px solid #cec5b2; padding: 14px; margin-bottom: 12px; text-align: left; cursor: pointer; border-radius: 6px; font-size: 14px; font-weight: bold; transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
   .choice-btn:hover { background: #fbf9f4; border-color: var(--ink); transform: translateX(3px); }
   
-  .start-btn { background: var(--red); color: #fff; border: none; padding: 15px 30px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 15px; box-shadow: 0 4px 10px rgba(192,57,43,0.3); }
+  /* 실시간 커뮤니티 티커 */
+  .community-ticker { background: #111; color: #00ffcc; border: 1px solid #333; padding: 8px 12px; font-size: 12px; border-radius: 4px; margin-top: 15px; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* 타이틀 및 엔딩 화면 */
+  .title-screen { text-align: center; padding: 20px 0; }
+  .tweet-box { background: #fff; border: 1px solid #dcd6c8; border-radius: 8px; padding: 15px; margin: 15px 0; text-align: left; }
+  .start-btn { background: var(--red); color: #fff; border: none; padding: 14px 28px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; margin-top: 10px; box-shadow: 0 4px 10px rgba(192,57,43,0.3); }
   .start-btn:hover { background: #a93226; }
 </style>
 </head>
 <body>
 
 <div class="container" id="app">
-  <!-- 메인 화면 렌더링 -->
+  <!-- 동적 렌더링 -->
 </div>
 
 <script>
-let state = { age: 5, cash: 10, mental: 100, sigh: 10, step: 1 };
-
-const stages = {
-  1: { age: "5세", name: "유치원 시절", text: "유치원 간식 시간, 딸기우유가 3개 모자란다. 선생님이 '먼저 손든 사람에게 주겠다'고 한다.", c1: "🙋‍♂️ 손을 번쩍 들고 내가 먼저 먹겠다고 쟁취한다!", c2: "🤝 '못 먹은 친구들과 반씩 나눠 마셔요'라고 제안한다." },
-  2: { age: "17세", name: "고등학교 시절", text: "학교 동아리 영화 관람 시간. 사회비판적 독립 영화와 블록버스터 상업 영화 중 하나를 골라야 한다.", c1: "🎬 자본주의의 모순을 고발하는 다큐멘터리 영화를 골라 토론을 연다.", c2: "🍿 아무 생각 없이 웃을 수 있는 할리우드 히어로 액션 영화를 본다." },
-  3: { age: "24세", name: "대학생 및 아르바이트", text: "편의점 야간 알바 중, 최저임금보다 적은 시급을 준다는 사장님의 사연을 들었다. 어떻게 할까?", c1: "✊ 노동청에 고발하고 부당함을 알리는 대자보를 캠퍼스에 붙인다.", c2: "🤫 '당장 월급이 아쉬우니' 눈을 감고 조용히 일한다." },
-  4: { age: "32세", name: "직장인과 주택 마련의 기로", text: "열심히 모은 돈과 대출로 집을 사야 한다. 선택의 순간이다.", c1: "🏢 공공임대 주택과 주거 복지 확대를 지지하며 실거주 위주로 버신다.", c2: "📈 영끌(영혼까지 끌어모아) 재개발 아파트 청약과 부동산 투자에 올인한다." },
-  5: { age: "45세", name: "아파트 동대표 당선", text: "어렵게 마련한 아파트의 동대표가 되었다. 첫 주민 투표 안건이 올라왔다.", c1: "📢 단지 내 임대주택 차별 반대 및 경비원 노동환경 개선 조례안을 발의한다.", c2: "🛡️ 우리 아파트 집값 하락을 막기 위한 보안 강화와 외부인 출입 금지를 통과시킨다." },
-  6: { age: "60세+", name: "은퇴와 황혼기", text: "온라인 커뮤니티와 라디오 시사 방송에 댓글을 남기는 은퇴 생활. 인생을 돌아보며 마지막 선택을 한다.", c1: "🕊️ 끝까지 사회적 약자와 연대하는 시민단체 활동가로 남는다.", c2: "🏡 안정적인 자산 관리와 노후 재테크에 집중하며 평온하게 지낸다." }
+let state = {
+  age: 5,
+  cash: 10,
+  mental: 100,
+  sigh: 10,
+  step: 1
 };
 
-function renderMainScreen() {
+const stages = {
+  1: {
+    age: "5세", title: "유치원 시절",
+    avatar: "🧒", room: "소품: 뽀로로 음료수, 찢어진 그림책",
+    text: "유치원 간식 시간, 딸기우유가 3개 모자란다. 선생님이 '먼저 손든 사람에게 주겠다'고 한다.",
+    c1: { text: "🙋‍♂️ 손을 번쩍 들고 내가 먼저 먹겠다고 쟁취한다! (능력주의)", sigh: +25, cash: 0, comment: "키즈카페 커뮤니티: 애가 벌써부터 경쟁을 아네 기특해라 ㅋㅋ" },
+    c2: { text: "🤝 '못 먹은 친구들과 반씩 나눠 마셔요'라고 제안한다. (평등/분배)", sigh: +40, cash: 0, comment: "맘카페: 우리 애가 이런 애랑 어울리면 안 되는데..." }
+  },
+  2: {
+    age: "17세", title: "고등학교 시절",
+    avatar: "🧑‍🎓", room: "소품: 독서실 책상, 수능완성 문제집",
+    text: "학교 동아리 영화 관람 시간. 사회비판적 독립 영화와 블록버스터 상업 영화 중 하나를 골라야 한다.",
+    c1: { text: "🎬 자본주의의 모순을 고발하는 다큐멘터리 영화를 골라 토론을 연다.", sigh: +35, cash: -1, comment: "에브리타임: 또 과몰입 힙스터 등판했네 아오" },
+    c2: { text: "🍿 아무 생각 없이 웃을 수 있는 할리우드 히어로 액션 영화를 본다.", sigh: -10, cash: +2, comment: "인스타: 이게 청춘이지 암~" }
+  },
+  3: {
+    age: "24세", title: "대학생 및 알바생",
+    avatar: "🧑‍💻", room: "소품: 늘어난 무지 티셔츠, 캔커피 3캔",
+    text: "편의점 야간 알바 중, 최저임금보다 적은 시급을 준다는 사장님의 사연을 들었다. 어떻게 할까?",
+    c1: { text: "✊ 노동청에 고발하고 부당함을 알리는 대자보를 캠퍼스에 붙인다.", sigh: +45, cash: -5, comment: "디시인사이드: 알바는 알바고 공부나 해라 ㅉㅉ" },
+    c2: { text: "🤫 '당장 월급이 아쉬우니' 눈을 감고 조용히 일한다.", sigh: -15, cash: +15, comment: "블라인드: 사회생활 낄낄빠빠 잘하네" }
+  },
+  4: {
+    age: "32세", title: "직장인과 주택 마련의 기로",
+    avatar: "👨‍💼", room: "소품: 정장 자켓, 부동산 청약 통장",
+    text: "열심히 모은 돈과 대출로 집을 사야 한다. 선택의 순간이다.",
+    c1: { text: "🏢 공공임대 주택과 주거 복지 확대를 지지하며 실거주 위주로 버신다.", sigh: +30, cash: 0, comment: "뽐뿌: 평생 전전긍긍하다 거지 되는 조상 픽" },
+    c2: { text: "📈 영끌(영혼까지 끌어모아) 재개발 아파트 청약과 부동산 투자에 올인한다.", sigh: -20, cash: +30, comment: "부동산 스터디: 이분이 진짜 현명한 승리자네" }
+  },
+  5: {
+    age: "45세", title: "아파트 동대표 당선",
+    avatar: "👨‍⚖️", room: "소품: 아파트 청약 당첨증, 스마트폰 실거래가 앱",
+    text: "어렵게 마련한 아파트의 동대표가 되었다. 첫 주민 투표 안건이 올라왔다.",
+    c1: { text: "📢 단지 내 임대주택 차별 반대 및 경비원 노동환경 개선 조례안을 발의한다.", sigh: +50, cash: -10, comment: "입주민 단톡방: 아니 우리 집값 떨어지는 소리 안 들리나요? 사퇴하세요!" },
+    c2: { text: "🛡️ 우리 아파트 집값 하락을 막기 위한 보안 강화와 외부인 출입 금지를 통과시킨다.", sigh: -30, cash: +20, comment: "입주민 단톡방: 동대표님 역시 현명하십니다 찬성합니다!" }
+  },
+  6: {
+    age: "60세+", title: "은퇴와 황혼기",
+    avatar: "👴", room: "소품: 백발, 라디오, 등산 스틱",
+    text: "인생의 황혼기, 매일 커뮤니티와 라디오 시사 방송에 댓글을 남기는 은퇴 생활. 마지막 선택을 한다.",
+    c1: { text: "🕊️ 끝까지 사회적 약자와 연대하는 진보 시민단체 활동가로 남는다.", sigh: +40, cash: -20, ending: "left" },
+    c2: { text: "🏡 안정적인 자산 관리와 노후 재테크에 집중하며 평온하게 지낸다.", sigh: -40, cash: +50, ending: "right" }
+  }
+};
+
+function renderMain() {
   document.getElementById('app').innerHTML = `
-    <div class="main-screen">
-      <h1>좌아하게</h1>
-      <div class="subtitle">대한민국에서 좌파로 살기 — 명분은 무한, 예산은 유한</div>
+    <div class="title-screen">
+      <h1 style="color:var(--red); font-size:28px; margin-bottom:5px;">좌아하게</h1>
+      <div style="font-size:13px; color:#666; font-weight:bold; margin-bottom:15px;">대한민국에서 좌파로 살기 — 명분은 무한, 예산은 유한</div>
       
-      <!-- 보내주신 트윗 밈 형태를 완벽히 구현한 메인 비주얼 박스 -->
       <div class="tweet-box">
-        <div class="tweet-header">
-          <div class="tweet-avatar">
-            <!-- 프로필 이미지를 연결하거나 이모지로 대체 가능 -->
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24' fill='%23ccc'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z'/></svg>" alt="프로필">
-          </div>
-          <div class="tweet-user-info">
-            <div class="tweet-name-row">
-              <span>이재명</span>
-              <span class="verified-badge">✔</span>
-            </div>
-            <span class="tweet-handle">@Jaemyung_Lee</span>
-          </div>
-        </div>
-        <div class="tweet-content">
-          많이들 함께 해주세요<br>
-          <strong>좌아하게</strong> 말입니다.
-        </div>
+        <div style="font-weight:bold; font-size:14px; margin-bottom:4px;">이재명 ✔ <span style="font-size:12px; color:#777; font-weight:normal;">@Jaemyung_Lee</span></div>
+        <div style="font-size:15px; line-height:1.4;">많이들 함께 해주세요<br><strong>좌아하게</strong> 말입니다.</div>
       </div>
 
-      <p style="font-size: 14px; color: #444; margin: 15px 0; font-style: italic;">
+      <p style="font-size:13px; color:#444; font-style:italic; margin:15px 0;">
         "모두를 위한 정책을 발표했다.<br>이제 모두가 서로 다른 이유로 화를 낸다."
       </p>
 
-      <button class="start-btn" onclick="startGame()">게임 시작하기 👍</button>
+      <button class="start-btn" onclick="startGame()">인생 게임 시작하기 👍</button>
     </div>
   `;
 }
@@ -109,66 +132,77 @@ function renderGame() {
   if (!stage) return;
 
   document.getElementById('app').innerHTML = `
-    <h1>좌아하게</h1>
-    <div class="dashboard" id="dashboard">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h2 style="margin:0; font-size:18px; color:var(--red);">좌아하게: 생애 시뮬레이션</h2>
+      <button onclick="renderMain()" style="background:none; border:none; color:#666; cursor:pointer; font-size:12px;">🏠 타이틀로</button>
+    </div>
+
+    <div class="dashboard">
       <div class="status-row">
-        <span id="stat-age">👶 나이: ${stage.age} (${stage.name})</span>
-        <span id="stat-cash">💰 자산: ${state.cash}만 원</span>
-        <span id="stat-mental">🧠 멘탈: ${state.mental}</span>
+        <span>👶 나이: ${stage.age} (${stage.title})</span>
+        <span>💰 자산: ${state.cash}만 원</span>
+        <span>🧠 멘탈: ${state.mental}</span>
       </div>
-      <div class="gauge-container">
-        <span>😤 엄마의 한숨 게이지:</span>
-        <div class="gauge-bar"><div class="gauge-fill" id="sigh-fill" style="width: ${state.sigh}%;"></div></div>
-        <span id="sigh-text">${state.sigh}% (${state.sigh > 70 ? '뒷목 잡으심' : state.sigh > 40 ? '깊은 한숨' : '평온'})</span>
+      <div class="sigh-box">
+        <span>😤 엄마의 한숨: ${state.sigh}%</span>
+        <div class="gauge-bar"><div class="gauge-fill" style="width: ${state.sigh}%;"></div></div>
       </div>
     </div>
 
-    <div class="stage-title">Stage ${state.step} / 6</div>
+    <!-- 육성 그래픽 및 아바타 룸 UI -->
+    <div class="avatar-room">
+      <div class="avatar-emoji">${stage.avatar}</div>
+      <div class="avatar-status">현재 상태: ${stage.title} 진행 중</div>
+      <div class="room-items">${stage.room}</div>
+    </div>
+
+    <div class="stage-badge">Stage ${state.step} / 6</div>
     <div class="scenario">${stage.text}</div>
-    <button class="choice-btn" onclick="makeChoice(1)">${stage.c1}</button>
-    <button class="choice-btn" onclick="makeChoice(2)">${stage.c2}</button>
+
+    <button class="choice-btn" onclick="makeChoice(1)">${stage.c1.text}</button>
+    <button class="choice-btn" onclick="makeChoice(2)">${stage.c2.text}</button>
+
+    <div class="community-ticker" id="ticker">💬 실시간 여론: 선택을 내려 반응을 확인하세요.</div>
   `;
 }
 
-function makeChoice(choiceNum) {
-  if (choiceNum === 1) {
-    state.sigh += (state.step === 1 ? 25 : 35);
-    state.mental -= 10;
-    state.cash -= 5;
-  } else {
-    state.sigh = Math.max(0, state.sigh - 10);
-    state.mental += 10;
-    state.cash += 15;
-  }
-  state.sigh = Math.max(0, Math.min(100, state.sigh));
-  state.mental = Math.max(0, Math.min(100, state.mental));
+function makeChoice(num) {
+  let stage = stages[state.step];
+  let choice = num === 1 ? stage.c1 : stage.c2;
 
-  if (state.step >= 6) {
-    showEnding(choiceNum === 1 ? 'left' : 'right');
+  state.sigh = Math.max(0, Math.min(100, state.sigh + choice.sigh));
+  state.cash += choice.cash;
+  state.mental = Math.max(0, state.mental - (num === 1 ? 5 : 0));
+
+  document.getElementById('ticker').innerText = `${choice.comment}`;
+
+  if (choice.ending) {
+    showEnding(choice.ending);
   } else {
     state.step++;
-    renderGame();
+    setTimeout(renderGame, 500);
   }
 }
 
 function showEnding(type) {
-  let content = document.getElementById('app');
+  let app = document.getElementById('app');
   if (type === 'left') {
-    content.innerHTML = `
+    app.innerHTML = `
       <h2>🏛️ 엔딩: 명분은 무한, 통장은 유한</h2>
-      <p class="scenario">평생을 대의와 연대, 사회적 약자의 편에 서서 싸워온 당신. 어머니는 늘 뒷목을 잡으셨지만, 세상에는 당신이 남긴 작은 균열들이 기록되었습니다.<br><br><em>“정책은 성공했습니다. 지표와 통장 잔고만 동의하지 않았습니다.”</em></p>
-      <button class="choice-btn" style="text-align:center; background:var(--red); color:#fff; margin-top:15px;" onclick="renderMainScreen()">🔄 타이틀로 돌아가기</button>
+      <p class="scenario">평생을 대의와 연대, 사회적 약자의 편에 서서 싸워온 당신. 어머니는 매일 깊은 한숨을 쉬셨지만, 커뮤니티와 역사 속에는 당신의 흔적이 찬란하게 박제되었습니다.<br><br><em>“정책은 성공했습니다. 지표와 통장 잔고만 동의하지 않았습니다.”</em></p>
+      <button class="start-btn" onclick="renderMain()">🔄 타이틀로 돌아가기</button>
     `;
   } else {
-    content.innerHTML = `
-      <h2>🏡 엔딩: 현실주의자의 안락한 노후</h2>
-      <p class="scenario">이상보다는 현실의 지표와 자산을 선택한 당신. 어머니는 평온하게 미소 지으셨고, 통장 잔고는 든든합니다. 세상의 변화보다는 내 집의 평화가 소중했던 한 평생이었습니다.<br><br><em>“박수는 줄었지만 민원도 없고, 자산은 늘었습니다.”</em></p>
-      <button class="choice-btn" style="text-align:center; background:var(--red); color:#fff; margin-top:15px;" onclick="renderMainScreen()">🔄 타이틀로 돌아가기</button>
+    app.innerHTML = `
+      <h2>🏡 엔딩: 현실주의자의 안락한 자산가</h2>
+      <p class="scenario">이상보다는 현실의 지표와 자산을 선택한 당신. 어머니는 비로소 평온하게 미소 지으셨고, 통장 잔고와 건물은 든든합니다. 세상의 변화보다 내 자산의 평화가 소중했던 한 평생이었습니다.<br><br><em>“박수는 줄었지만 민원은 없고, 자산은 늘었습니다.”</em></p>
+      <button class="start-btn" style="background:var(--blue);" onclick="renderMain()">🔄 타이틀로 돌아가기</button>
     `;
   }
 }
 
-renderMainScreen();
+// 초기 실행
+renderMain();
 </script>
 
 </body>
